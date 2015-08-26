@@ -4,3 +4,7 @@ build
 
 # Ignore waf lock file
 .lock-waf*
+
+# Ignore CLion project files
+.idea/
+
