@@ -1,60 +1,62 @@
 #include <pebble.h>
 
-static Window *window;
-static TextLayer *text_layer;
+typedef struct {
+  Window *window;
+} WatchIRAppData;
 
-static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Select");
+static void prv_select_click_handler(ClickRecognizerRef recognizer, void *context) {
+
 }
 
-static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Up");
+static void prv_up_click_handler(ClickRecognizerRef recognizer, void *context) {
+
 }
 
-static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Down");
+static void prv_down_click_handler(ClickRecognizerRef recognizer, void *context) {
+
 }
 
-static void click_config_provider(void *context) {
-  window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
-  window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
-  window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
+static void prv_click_config_provider(void *context) {
+  window_single_click_subscribe(BUTTON_ID_SELECT, prv_select_click_handler);
+  window_single_click_subscribe(BUTTON_ID_UP, prv_up_click_handler);
+  window_single_click_subscribe(BUTTON_ID_DOWN, prv_down_click_handler);
 }
 
-static void window_load(Window *window) {
-  Layer *window_layer = window_get_root_layer(window);
-  GRect bounds = layer_get_bounds(window_layer);
-
-  text_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 20 } });
-  text_layer_set_text(text_layer, "Press a button");
-  text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
-  layer_add_child(window_layer, text_layer_get_layer(text_layer));
+static void prv_window_load(Window *window) {
+  // TODO
+//  Layer *window_layer = window_get_root_layer(window);
+//  GRect bounds = layer_get_bounds(window_layer);
 }
 
-static void window_unload(Window *window) {
-  text_layer_destroy(text_layer);
+static void prv_window_unload(Window *window) {
+  WatchIRAppData *data = window_get_user_data(window);
+  if (data) {
+    window_destroy(data->window);
+  }
+  free(data);
 }
 
-static void init(void) {
-  window = window_create();
-  window_set_click_config_provider(window, click_config_provider);
+static void prv_app_init(void) {
+  WatchIRAppData *data = malloc(sizeof(WatchIRAppData));
+  memset(data, 0, sizeof(WatchIRAppData));
+
+  data->window = window_create();
+  Window *window = data->window;
+  window_set_user_data(window, data);
+  window_set_click_config_provider(window, prv_click_config_provider);
   window_set_window_handlers(window, (WindowHandlers) {
-    .load = window_load,
-    .unload = window_unload,
+    .load = prv_window_load,
+    .unload = prv_window_unload,
   });
-  const bool animated = true;
-  window_stack_push(window, animated);
+  window_stack_push(window, true /* animated */);
 }
 
-static void deinit(void) {
-  window_destroy(window);
+static void prv_app_deinit(void) {
+
 }
 
 int main(void) {
-  init();
-
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "Done initializing, pushed window: %p", window);
-
+  prv_app_init();
   app_event_loop();
-  deinit();
+  prv_app_deinit();
 }
