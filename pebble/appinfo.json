@@ -2,10 +2,10 @@
   "uuid": "afdc8a8f-5b72-4488-9da5-561d3f663981",
   "shortName": "WatchIR",
   "longName": "WatchIR",
-  "companyName": "MakeAwesomeHappen",
+  "companyName": "Kevin Conley",
   "versionLabel": "1.0",
   "sdkVersion": "3",
-  "targetPlatforms": ["aplite", "basalt"],
+  "targetPlatforms": ["basalt"],
   "watchapp": {
     "watchface": false
   },
