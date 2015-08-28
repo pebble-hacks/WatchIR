@@ -3,7 +3,7 @@
 typedef struct {
   Window *window;
   TextLayer *instruction_text_layer;
-} WatchIRAppData;
+} WatchIrAppData;
 
 static void prv_select_click_handler(ClickRecognizerRef recognizer, void *context) {
 
@@ -24,12 +24,12 @@ static void prv_click_config_provider(void *context) {
 }
 
 static void prv_window_appear(Window *window) {
-  WatchIRAppData *data = window_get_user_data(window);
+  WatchIrAppData *data = window_get_user_data(window);
   text_layer_set_text(data->instruction_text_layer, "Hold down a button to program");
 }
 
 static void prv_window_load(Window *window) {
-  WatchIRAppData *data = window_get_user_data(window);
+  WatchIrAppData *data = window_get_user_data(window);
 
   Layer *window_layer = window_get_root_layer(window);
   const GRect window_layer_bounds = layer_get_bounds(window_layer);
@@ -42,7 +42,7 @@ static void prv_window_load(Window *window) {
 }
 
 static void prv_window_unload(Window *window) {
-  WatchIRAppData *data = window_get_user_data(window);
+  WatchIrAppData *data = window_get_user_data(window);
   if (data) {
     text_layer_destroy(data->instruction_text_layer);
     window_destroy(data->window);
@@ -51,8 +51,8 @@ static void prv_window_unload(Window *window) {
 }
 
 static void prv_app_init(void) {
-  WatchIRAppData *data = malloc(sizeof(WatchIRAppData));
-  memset(data, 0, sizeof(WatchIRAppData));
+  WatchIrAppData *data = malloc(sizeof(WatchIrAppData));
+  memset(data, 0, sizeof(WatchIrAppData));
 
   data->window = window_create();
   Window *window = data->window;
