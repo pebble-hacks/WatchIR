@@ -6,6 +6,7 @@
 typedef struct {
   Window *window;
   TextLayer *instruction_text_layer;
+  ActionBarLayer *action_bar_layer;
 } WatchIrAppData;
 
 // Click handlers
@@ -51,8 +52,18 @@ static void prv_click_config_provider(void *context) {
 
 static void prv_window_appear(Window *window) {
   WatchIrAppData *data = window_get_user_data(window);
+  const GRect window_layer_bounds = layer_get_bounds(window_get_root_layer(window));
+  TextLayer *instruction_text_layer = data->instruction_text_layer;
   if (!ir_button_any_buttons_are_programmed()) {
-    text_layer_set_text(data->instruction_text_layer, "Hold down a button to program");
+    layer_set_frame(text_layer_get_layer(instruction_text_layer), window_layer_bounds);
+    text_layer_set_font(instruction_text_layer, fonts_get_system_font(FONT_KEY_BITHAM_30_BLACK));
+    text_layer_set_text(instruction_text_layer, "Hold down a button to program");
+  } else {
+    GRect adjusted_text_layer_frame = window_layer_bounds;
+    adjusted_text_layer_frame.size.w -= ACTION_BAR_WIDTH;
+    layer_set_frame(text_layer_get_layer(instruction_text_layer), adjusted_text_layer_frame);
+    text_layer_set_font(instruction_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
+    text_layer_set_text(instruction_text_layer, "Hold down a button to program it");
   }
 }
 
@@ -62,9 +73,15 @@ static void prv_window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   const GRect window_layer_bounds = layer_get_bounds(window_layer);
 
+  data->action_bar_layer = action_bar_layer_create();
+  ActionBarLayer *action_bar_layer = data->action_bar_layer;
+  if (!ir_button_any_buttons_are_programmed()) {
+    action_bar_layer_add_to_window(action_bar_layer, window);
+  }
+  action_bar_layer_set_click_config_provider(action_bar_layer, prv_click_config_provider);
+
   data->instruction_text_layer = text_layer_create(window_layer_bounds);
   TextLayer *instruction_text_layer = data->instruction_text_layer;
-  text_layer_set_font(instruction_text_layer, fonts_get_system_font(FONT_KEY_BITHAM_30_BLACK));
   text_layer_set_text_alignment(instruction_text_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(instruction_text_layer));
 }
@@ -73,6 +90,7 @@ static void prv_window_unload(Window *window) {
   WatchIrAppData *data = window_get_user_data(window);
   if (data) {
     text_layer_destroy(data->instruction_text_layer);
+    action_bar_layer_destroy(data->action_bar_layer);
     window_destroy(data->window);
   }
   free(data);
