@@ -1,6 +1,7 @@
 #include <pebble.h>
 
 #include "ir_button.h"
+#include "ir_program_window.h"
 
 typedef struct {
   Window *window;
@@ -14,24 +15,24 @@ static void prv_select_single_click_handler(ClickRecognizerRef recognizer, void 
 
 }
 
-static void prv_select_long_click_up_handler(ClickRecognizerRef recognizer, void *context) {
-
+static void prv_select_long_click_down_handler(ClickRecognizerRef recognizer, void *context) {
+  ir_program_window_push(BUTTON_ID_SELECT);
 }
 
 static void prv_up_single_click_handler(ClickRecognizerRef recognizer, void *context) {
 
 }
 
-static void prv_up_long_click_up_handler(ClickRecognizerRef recognizer, void *context) {
-
+static void prv_up_long_click_down_handler(ClickRecognizerRef recognizer, void *context) {
+  ir_program_window_push(BUTTON_ID_UP);
 }
 
 static void prv_down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
 
 }
 
-static void prv_down_long_click_up_handler(ClickRecognizerRef recognizer, void *context) {
-
+static void prv_down_long_click_down_handler(ClickRecognizerRef recognizer, void *context) {
+  ir_program_window_push(BUTTON_ID_DOWN);
 }
 
 static void prv_click_config_provider(void *context) {
@@ -39,10 +40,10 @@ static void prv_click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_UP, prv_up_single_click_handler);
   window_single_click_subscribe(BUTTON_ID_DOWN, prv_down_single_click_handler);
 
-  const uint16_t delay_ms = 1200;
-  window_long_click_subscribe(BUTTON_ID_SELECT, delay_ms, NULL, prv_select_long_click_up_handler);
-  window_long_click_subscribe(BUTTON_ID_UP, delay_ms, NULL, prv_up_long_click_up_handler);
-  window_long_click_subscribe(BUTTON_ID_DOWN, delay_ms, NULL, prv_down_long_click_up_handler);
+  const uint16_t delay_ms = 500;
+  window_long_click_subscribe(BUTTON_ID_SELECT, delay_ms, prv_select_long_click_down_handler, NULL);
+  window_long_click_subscribe(BUTTON_ID_UP, delay_ms, prv_up_long_click_down_handler, NULL);
+  window_long_click_subscribe(BUTTON_ID_DOWN, delay_ms, prv_down_long_click_down_handler, NULL);
 }
 
 // Window handlers
