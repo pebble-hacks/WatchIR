@@ -1,31 +1,58 @@
 #include <pebble.h>
 
+#include "ir_button.h"
+
 typedef struct {
   Window *window;
   TextLayer *instruction_text_layer;
 } WatchIrAppData;
 
-static void prv_select_click_handler(ClickRecognizerRef recognizer, void *context) {
+// Click handlers
+/////////////////////
+
+static void prv_select_single_click_handler(ClickRecognizerRef recognizer, void *context) {
 
 }
 
-static void prv_up_click_handler(ClickRecognizerRef recognizer, void *context) {
+static void prv_select_long_click_up_handler(ClickRecognizerRef recognizer, void *context) {
 
 }
 
-static void prv_down_click_handler(ClickRecognizerRef recognizer, void *context) {
+static void prv_up_single_click_handler(ClickRecognizerRef recognizer, void *context) {
+
+}
+
+static void prv_up_long_click_up_handler(ClickRecognizerRef recognizer, void *context) {
+
+}
+
+static void prv_down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
+
+}
+
+static void prv_down_long_click_up_handler(ClickRecognizerRef recognizer, void *context) {
 
 }
 
 static void prv_click_config_provider(void *context) {
-  window_single_click_subscribe(BUTTON_ID_SELECT, prv_select_click_handler);
-  window_single_click_subscribe(BUTTON_ID_UP, prv_up_click_handler);
-  window_single_click_subscribe(BUTTON_ID_DOWN, prv_down_click_handler);
+  window_single_click_subscribe(BUTTON_ID_SELECT, prv_select_single_click_handler);
+  window_single_click_subscribe(BUTTON_ID_UP, prv_up_single_click_handler);
+  window_single_click_subscribe(BUTTON_ID_DOWN, prv_down_single_click_handler);
+
+  const uint16_t delay_ms = 1200;
+  window_long_click_subscribe(BUTTON_ID_SELECT, delay_ms, NULL, prv_select_long_click_up_handler);
+  window_long_click_subscribe(BUTTON_ID_UP, delay_ms, NULL, prv_up_long_click_up_handler);
+  window_long_click_subscribe(BUTTON_ID_DOWN, delay_ms, NULL, prv_down_long_click_up_handler);
 }
+
+// Window handlers
+/////////////////////
 
 static void prv_window_appear(Window *window) {
   WatchIrAppData *data = window_get_user_data(window);
-  text_layer_set_text(data->instruction_text_layer, "Hold down a button to program");
+  if (!ir_button_any_buttons_are_programmed()) {
+    text_layer_set_text(data->instruction_text_layer, "Hold down a button to program");
+  }
 }
 
 static void prv_window_load(Window *window) {
@@ -49,6 +76,9 @@ static void prv_window_unload(Window *window) {
   }
   free(data);
 }
+
+// App boiler plate
+/////////////////////
 
 static void prv_app_init(void) {
   WatchIrAppData *data = malloc(sizeof(WatchIrAppData));
