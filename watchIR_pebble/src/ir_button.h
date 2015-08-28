@@ -5,6 +5,7 @@
 typedef struct {
   ButtonId pebble_button;
   uint32_t ir_code;
+  uint32_t icon_resource_id;
 } IrButton;
 
 bool ir_button_get_program(ButtonId pebble_button, IrButton *result);

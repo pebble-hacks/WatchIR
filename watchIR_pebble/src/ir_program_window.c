@@ -1,11 +1,19 @@
 #include "ir_program_window.h"
 
+#include "defs.h"
+
 typedef struct {
   Window *window;
   ButtonId pebble_button_to_program;
   TextLayer *status_text_layer;
   char status_text[50];
+#if DEBUG == 1
+  AppTimer *debug_timer;
+#endif
 } IrProgramWindowData;
+
+// Helpers
+/////////////////////
 
 static const char *prv_get_button_string(ButtonId pebble_button) {
   switch (pebble_button) {
@@ -20,14 +28,34 @@ static const char *prv_get_button_string(ButtonId pebble_button) {
   }
 }
 
+// Debug
+/////////////////////
+
+#if DEBUG == 1
+static void prv_debug_timer_callback(void *context) {
+  IrProgramWindowData *data = context;
+  // Fake that we received a programming response from the smartstrap
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Got programming!");
+
+  data->debug_timer = NULL;
+}
+#endif
+
 // Window handlers
 /////////////////////
 
 static void prv_window_appear(Window *window) {
   IrProgramWindowData *data = window_get_user_data(window);
+  const char *button_string = prv_get_button_string(data->pebble_button_to_program);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Listening for programming for %s button...", button_string);
   snprintf(data->status_text, sizeof(data->status_text), "Programming %s button...",
-           prv_get_button_string(data->pebble_button_to_program));
+           button_string);
   text_layer_set_text(data->status_text_layer, data->status_text);
+
+#if DEBUG == 1
+  const uint32_t timeout_ms = 3000;
+  data->debug_timer = app_timer_register(timeout_ms, prv_debug_timer_callback, data);
+#endif
 }
 
 static void prv_window_load(Window *window) {
@@ -46,6 +74,11 @@ static void prv_window_load(Window *window) {
 static void prv_window_unload(Window *window) {
   IrProgramWindowData *window_data = window_get_user_data(window);
   if (window_data) {
+#if DEBUG == 1
+    if (window_data->debug_timer) {
+      app_timer_cancel(window_data->debug_timer);
+    }
+#endif
     text_layer_destroy(window_data->status_text_layer);
     window_destroy(window_data->window);
   }
