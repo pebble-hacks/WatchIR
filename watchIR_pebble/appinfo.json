@@ -13,6 +13,262 @@
     "dummy": 0
   },
   "resources": {
-    "media": []
+    "media": [
+      {
+        "type": "png",
+        "name": "ADD189",
+        "file": "add189.png"
+      },
+      {
+        "type": "png",
+        "name": "ALARM52",
+        "file": "alarm52.png"
+      },
+      {
+        "type": "png",
+        "name": "BASIC14",
+        "file": "basic14.png"
+      },
+      {
+        "type": "png",
+        "name": "BASIC15",
+        "file": "basic15.png"
+      },
+      {
+        "type": "png",
+        "name": "BASIC16",
+        "file": "basic16.png"
+      },
+      {
+        "type": "png",
+        "name": "BASIC17",
+        "file": "basic17.png"
+      },
+      {
+        "type": "png",
+        "name": "BLANK38",
+        "file": "blank38.png"
+      },
+      {
+        "type": "png",
+        "name": "BOOKMARK49",
+        "file": "bookmark49.png"
+      },
+      {
+        "type": "png",
+        "name": "CENTER13",
+        "file": "center13.png"
+      },
+      {
+        "type": "png",
+        "name": "CLASIC",
+        "file": "clasic.png"
+      },
+      {
+        "type": "png",
+        "name": "DELETE85",
+        "file": "delete85.png"
+      },
+      {
+        "type": "png",
+        "name": "DOLLAR178",
+        "file": "dollar178.png"
+      },
+      {
+        "type": "png",
+        "name": "DOOR24",
+        "file": "door24.png"
+      },
+      {
+        "type": "png",
+        "name": "DOWN124",
+        "file": "down124.png"
+      },
+      {
+        "type": "png",
+        "name": "DOWNLOAD168",
+        "file": "download168.png"
+      },
+      {
+        "type": "png",
+        "name": "EXPAND42",
+        "file": "expand42.png"
+      },
+      {
+        "type": "png",
+        "name": "EXPAND43",
+        "file": "expand43.png"
+      },
+      {
+        "type": "png",
+        "name": "EYE106",
+        "file": "eye106.png"
+      },
+      {
+        "type": "png",
+        "name": "FILM63",
+        "file": "film63.png"
+      },
+      {
+        "type": "png",
+        "name": "HEART297",
+        "file": "heart297.png"
+      },
+      {
+        "type": "png",
+        "name": "HOME153",
+        "file": "home153.png"
+      },
+      {
+        "type": "png",
+        "name": "LEFT_ARROW",
+        "file": "left arrow.png"
+      },
+      {
+        "type": "png",
+        "name": "LEFT224",
+        "file": "left224.png"
+      },
+      {
+        "type": "png",
+        "name": "LEFT225",
+        "file": "left225.png"
+      },
+      {
+        "type": "png",
+        "name": "LOCATION44",
+        "file": "location44.png"
+      },
+      {
+        "type": "png",
+        "name": "LOCKED61",
+        "file": "locked61.png"
+      },
+      {
+        "type": "png",
+        "name": "MAIL80",
+        "file": "mail80.png"
+      },
+      {
+        "type": "png",
+        "name": "NAVIGATION12",
+        "file": "navigation12.png"
+      },
+      {
+        "type": "png",
+        "name": "PAUSE46",
+        "file": "pause46.png"
+      },
+      {
+        "type": "png",
+        "name": "PRINT45",
+        "file": "print45.png"
+      },
+      {
+        "type": "png",
+        "name": "REFRESH62",
+        "file": "refresh62.png"
+      },
+      {
+        "type": "png",
+        "name": "REMOVE22",
+        "file": "remove22.png"
+      },
+      {
+        "type": "png",
+        "name": "RIGHT_ARROW",
+        "file": "right arrow.png"
+      },
+      {
+        "type": "png",
+        "name": "RIGHT247",
+        "file": "right247.png"
+      },
+      {
+        "type": "png",
+        "name": "ROCKET74",
+        "file": "rocket74.png"
+      },
+      {
+        "type": "png",
+        "name": "ROUND75",
+        "file": "round75.png"
+      },
+      {
+        "type": "png",
+        "name": "ROUND77",
+        "file": "round77.png"
+      },
+      {
+        "type": "png",
+        "name": "SMARTPHONE24",
+        "file": "smartphone24.png"
+      },
+      {
+        "type": "png",
+        "name": "SPEAKER111",
+        "file": "speaker111.png"
+      },
+      {
+        "type": "png",
+        "name": "SPEAKER112",
+        "file": "speaker112.png"
+      },
+      {
+        "type": "png",
+        "name": "SPEAKER113",
+        "file": "speaker113.png"
+      },
+      {
+        "type": "png",
+        "name": "STAR174",
+        "file": "star174.png"
+      },
+      {
+        "type": "png",
+        "name": "THUMBTACK1",
+        "file": "thumbtack1.png"
+      },
+      {
+        "type": "png",
+        "name": "UNLOCKED46",
+        "file": "unlocked46.png"
+      },
+      {
+        "type": "png",
+        "name": "WARNING39",
+        "file": "warning39.png"
+      },
+      {
+        "type": "png",
+        "name": "WIDESCREEN9",
+        "file": "widescreen9.png"
+      },
+      {
+        "type": "png",
+        "name": "WINDOW58",
+        "file": "window58.png"
+      },
+      {
+        "type": "png",
+        "name": "WRENCH73",
+        "file": "wrench73.png"
+      },
+      {
+        "type": "png",
+        "name": "ZOOM71",
+        "file": "zoom71.png"
+      },
+      {
+        "type": "png",
+        "name": "ZOOM72",
+        "file": "zoom72.png"
+      },
+      {
+        "type": "raw",
+        "name": "NUM_RESOURCES",
+        "file": "dummy_resource.txt"
+      }
+    ]
   }
 }
