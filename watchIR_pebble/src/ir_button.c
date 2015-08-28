@@ -1,7 +1,7 @@
 #include "ir_button.h"
 
 bool ir_button_get_program(ButtonId pebble_button, IrButton *result) {
-  if (!result || !persist_exists(pebble_button)) {
+  if (!result || (pebble_button == BUTTON_ID_BACK) || !persist_exists(pebble_button)) {
     return false;
   }
   const int ir_button_size = sizeof(IrButton);
@@ -23,7 +23,8 @@ bool ir_button_is_programmed(ButtonId pebble_button) {
 
 bool ir_button_any_buttons_are_programmed(void) {
   for (ButtonId pebble_button = 0; pebble_button < NUM_BUTTONS; pebble_button++) {
-    if (ir_button_is_programmed(pebble_button)) {
+    if ((pebble_button != BUTTON_ID_BACK) &&
+        ir_button_is_programmed(pebble_button)) {
       return true;
     }
   }

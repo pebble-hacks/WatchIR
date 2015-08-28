@@ -1,6 +1,10 @@
 #include "ir_program_window.h"
 
 #include "defs.h"
+#include "icon_selection_window.h"
+#include "ir_button.h"
+
+#include <inttypes.h>
 
 typedef struct {
   Window *window;
@@ -28,16 +32,43 @@ static const char *prv_get_button_string(ButtonId pebble_button) {
   }
 }
 
+// Icon selection window
+/////////////////////////
+
+static void prv_icon_selection_window_callback(uint32_t selected_icon_resource_id, void *context) {
+  IrProgramWindowData *data = context;
+  if (selected_icon_resource_id != RESOURCE_ID_INVALID) {
+    IrButton new_ir_button = (IrButton) {
+      .pebble_button = data->pebble_button_to_program,
+      .icon_resource_id = selected_icon_resource_id,
+      .ir_code = 0x1337, // TODO fix me
+    };
+    if (ir_button_program(&new_ir_button)) {
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "Successfully programmed %s button, using icon resource ID: %"PRIu32" ",
+              prv_get_button_string(data->pebble_button_to_program), selected_icon_resource_id);
+    } else {
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "Failed to program %s button",
+              prv_get_button_string(data->pebble_button_to_program));
+    }
+  }
+
+  // Pop the icon selection window and the IR program window
+  const bool animated = false;
+  window_stack_pop(animated);
+  window_stack_pop(animated);
+}
+
 // Debug
 /////////////////////
 
 #if DEBUG == 1
 static void prv_debug_timer_callback(void *context) {
-  IrProgramWindowData *data = context;
+  IrProgramWindowData *window_data = context;
+  window_data->debug_timer = NULL;
+
   // Fake that we received a programming response from the smartstrap
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Got programming!");
-
-  data->debug_timer = NULL;
+  icon_selection_window_push(prv_icon_selection_window_callback, window_data);
 }
 #endif
 
@@ -47,7 +78,6 @@ static void prv_debug_timer_callback(void *context) {
 static void prv_window_appear(Window *window) {
   IrProgramWindowData *data = window_get_user_data(window);
   const char *button_string = prv_get_button_string(data->pebble_button_to_program);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "Listening for programming for %s button...", button_string);
   snprintf(data->status_text, sizeof(data->status_text), "Programming %s button...",
            button_string);
   text_layer_set_text(data->status_text_layer, data->status_text);
@@ -93,6 +123,7 @@ void ir_program_window_push(ButtonId pebble_button_to_program) {
   if (!window_data) {
     return;
   }
+  memset(window_data, 0, sizeof(IrProgramWindowData));
 
   window_data->window = window_create();
   Window *window = window_data->window;
