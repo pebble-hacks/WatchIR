@@ -8,3 +8,6 @@ build
 # Ignore CLion project files
 .idea/
 
+# Ignore Mac finder files
+.DS_Store
+
