@@ -3,6 +3,7 @@
 #include "defs.h"
 #include "icon_selection_window.h"
 #include "ir_button.h"
+#include "ir_smartstrap.h"
 
 #include <inttypes.h>
 
@@ -13,6 +14,8 @@ typedef struct {
   char status_text[50];
 #if DEBUG == 1
   AppTimer *debug_timer;
+#else
+  IrCode recorded_ir_code;
 #endif
 } IrProgramWindowData;
 
@@ -38,18 +41,24 @@ static const char *prv_get_button_string(ButtonId pebble_button) {
 static void prv_icon_selection_window_callback(uint32_t selected_icon_resource_id, void *context) {
   IrProgramWindowData *data = context;
   if (selected_icon_resource_id != RESOURCE_ID_INVALID) {
-    IrButton new_ir_button = (IrButton) {
-      .pebble_button = data->pebble_button_to_program,
-      .icon_resource_id = selected_icon_resource_id,
-      .ir_code = 0x1337, // TODO fix me
-    };
-    if (ir_button_program(&new_ir_button)) {
+    IrButton *new_ir_button = malloc(sizeof(IrButton));
+    if (new_ir_button) {
+      *new_ir_button = (IrButton) {
+        .pebble_button = data->pebble_button_to_program,
+        .icon_resource_id = selected_icon_resource_id,
+      };
+#if DEBUG == 0
+      memcpy(&new_ir_button->ir_code, &data->recorded_ir_code, sizeof(IrCode));
+#endif
+    }
+    if (ir_button_program(new_ir_button)) {
       APP_LOG(APP_LOG_LEVEL_DEBUG, "Successfully programmed %s button, using icon resource ID: %"PRIu32" ",
               prv_get_button_string(data->pebble_button_to_program), selected_icon_resource_id);
     } else {
       APP_LOG(APP_LOG_LEVEL_DEBUG, "Failed to program %s button",
               prv_get_button_string(data->pebble_button_to_program));
     }
+    free(new_ir_button);
   }
 
   // Pop the icon selection window and the IR program window
@@ -67,7 +76,23 @@ static void prv_debug_timer_callback(void *context) {
   window_data->debug_timer = NULL;
 
   // Fake that we received a programming response from the smartstrap
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "Got programming!");
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Got fake programming");
+  icon_selection_window_push(prv_icon_selection_window_callback, window_data);
+}
+#endif
+
+// IR Smartstrap record result callback
+////////////////////////////////////////
+
+#if DEBUG == 0
+static void prv_record_result_callback(const IrCode *ir_code, void *context) {
+  if (!ir_code) {
+    return;
+  }
+  IrProgramWindowData *window_data = context;
+  window_data->recorded_ir_code = *ir_code;
+
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Received record result");
   icon_selection_window_push(prv_icon_selection_window_callback, window_data);
 }
 #endif
@@ -99,6 +124,10 @@ static void prv_window_load(Window *window) {
   text_layer_set_font(status_text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
   text_layer_set_text_alignment(status_text_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(status_text_layer));
+
+#if DEBUG == 0
+  ir_smartstrap_record(prv_record_result_callback, window_data);
+#endif
 }
 
 static void prv_window_unload(Window *window) {

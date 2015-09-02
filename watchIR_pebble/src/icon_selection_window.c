@@ -53,7 +53,8 @@ static void prv_menu_layer_draw_header(GContext *ctx, const Layer *cell_layer, u
 static void prv_menu_layer_select_click(MenuLayer *menu_layer, MenuIndex *cell_index, void *context) {
   IconSelectionWindowData *data = context;
   if (data->selection_callback) {
-    data->selection_callback(prv_get_resource_id_from_menu_layer_row(cell_index), data->selection_callback_context);
+    const uint32_t selected_icon_resource_id = prv_get_resource_id_from_menu_layer_row(cell_index);
+    data->selection_callback(selected_icon_resource_id, data->selection_callback_context);
   }
 }
 

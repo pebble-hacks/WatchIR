@@ -4,17 +4,18 @@ bool ir_button_get_program(ButtonId pebble_button, IrButton *result) {
   if (!result || (pebble_button == BUTTON_ID_BACK) || !persist_exists(pebble_button)) {
     return false;
   }
-  const int ir_button_size = sizeof(IrButton);
-  return (persist_read_data(pebble_button, result, sizeof(IrButton)) == ir_button_size);
+  const size_t ir_button_size = sizeof(IrButton);
+  return (persist_read_data(pebble_button, result, sizeof(IrButton)) == (int)ir_button_size);
 }
 
 bool ir_button_program(IrButton *ir_button) {
   if (!ir_button) {
     return false;
   }
-  const int ir_button_size = sizeof(IrButton);
-  return (persist_write_data(ir_button->pebble_button,
-                             ir_button, ir_button_size) == ir_button_size);
+  const size_t ir_button_size = sizeof(IrButton);
+  const int bytes_written = persist_write_data(ir_button->pebble_button,
+                                               ir_button, ir_button_size);
+  return (bytes_written == (int)ir_button_size);
 }
 
 bool ir_button_is_programmed(ButtonId pebble_button) {
