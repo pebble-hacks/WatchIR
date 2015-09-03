@@ -6,6 +6,7 @@ build
 
 # Ignore CLion project files
 .idea/
+CMakeLists.txt
 
 # Ignore Mac finder files
 .DS_Store
