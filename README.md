@@ -24,9 +24,10 @@ A programmable infrared remote controller smartstrap for the Pebble Time.
   * https://www.sparkfun.com/products/9469
 * TSOP85 infrared receiver breakout board
   * https://www.sparkfun.com/products/8554
-* BC547 NPN Transistor
+* BC547 NPN transistor
   * https://www.sparkfun.com/products/8928
 * 1kΩ resistor
+* 10kΩ resistor
 * 100Ω resistor
 * (optional) Kocaso 2600 mAh USB-chargable battery
 
