@@ -1,4 +1,3 @@
-
 # Ignore build generated files
 build
 
@@ -10,4 +9,3 @@ build
 
 # Ignore Mac finder files
 .DS_Store
-
