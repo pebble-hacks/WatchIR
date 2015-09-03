@@ -17,12 +17,6 @@ typedef struct {
 static void prv_select_single_click_handler(ClickRecognizerRef recognizer, void *context) {
   IrButton *programmed_button = malloc(sizeof(IrButton));
   if (ir_button_get_program(BUTTON_ID_SELECT, programmed_button)) {
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Stored button: %d", programmed_button->pebble_button);
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Stored icon: %d", (int)programmed_button->icon_resource_id);
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Stored num durations: %d", programmed_button->ir_code.num_durations);
-    for (size_t i = 0; i < programmed_button->ir_code.num_durations; i++) {
-      APP_LOG(APP_LOG_LEVEL_DEBUG, "Stored duration[%d]: %d", i, programmed_button->ir_code.durations[i]);
-    }
     ir_smartstrap_transmit(&programmed_button->ir_code);
   }
   free(programmed_button);
@@ -35,12 +29,6 @@ static void prv_select_long_click_down_handler(ClickRecognizerRef recognizer, vo
 static void prv_up_single_click_handler(ClickRecognizerRef recognizer, void *context) {
   IrButton *programmed_button = malloc(sizeof(IrButton));
   if (ir_button_get_program(BUTTON_ID_UP, programmed_button)) {
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Stored button: %d", programmed_button->pebble_button);
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Stored icon: %d", (int)programmed_button->icon_resource_id);
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Stored num durations: %d", programmed_button->ir_code.num_durations);
-    for (size_t i = 0; i < programmed_button->ir_code.num_durations; i++) {
-      APP_LOG(APP_LOG_LEVEL_DEBUG, "Stored duration[%d]: %d", i, programmed_button->ir_code.durations[i]);
-    }
     ir_smartstrap_transmit(&programmed_button->ir_code);
   }
   free(programmed_button);
@@ -53,12 +41,6 @@ static void prv_up_long_click_down_handler(ClickRecognizerRef recognizer, void *
 static void prv_down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
   IrButton *programmed_button = malloc(sizeof(IrButton));
   if (ir_button_get_program(BUTTON_ID_DOWN, programmed_button)) {
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Stored button: %d", programmed_button->pebble_button);
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Stored icon: %d", (int)programmed_button->icon_resource_id);
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Stored num durations: %d", programmed_button->ir_code.num_durations);
-    for (size_t i = 0; i < programmed_button->ir_code.num_durations; i++) {
-      APP_LOG(APP_LOG_LEVEL_DEBUG, "Stored duration[%d]: %d", i, programmed_button->ir_code.durations[i]);
-    }
     ir_smartstrap_transmit(&programmed_button->ir_code);
   }
   free(programmed_button);

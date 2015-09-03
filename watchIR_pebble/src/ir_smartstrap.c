@@ -51,7 +51,8 @@ static void prv_availablility_status_changed(SmartstrapServiceId service_id, boo
 }
 
 static void prv_did_write(SmartstrapAttribute *attr, SmartstrapResult result) {
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "did_write(<%p>, %d)", attr, result);
+  const AppLogLevel log_level = (result == SmartstrapResultOk) ? APP_LOG_LEVEL_DEBUG : APP_LOG_LEVEL_ERROR;
+  APP_LOG(log_level, "did_write(<%p>, %d)", attr, result);
 }
 
 static void prv_did_read(SmartstrapAttribute *attr, SmartstrapResult result,

@@ -11,7 +11,7 @@
 // WatchIrSmartStrapData
 //////////////////////
 
-#define MAX_SUPPORTED_IR_DURATIONS 50
+#define MAX_SUPPORTED_IR_DURATIONS RAWBUF // RAWBUF defined in IRremote.h
 typedef struct {
   size_t num_durations;
   size_t durations[MAX_SUPPORTED_IR_DURATIONS];
@@ -154,10 +154,10 @@ static void prv_transmit_code(void) {
   Serial.print("Transmitting code ");
   Serial.print(num_transmissions);
   Serial.println(" times");
-  
+
   for (int i = 0; i < num_transmissions; i++) {
     digitalWrite(IR_STATUS_PIN, HIGH);
-    
+
     s_watch_ir_remote_data.ir_send.sendRaw(s_watch_ir_smartstrap_data.durations, 
                                            s_watch_ir_smartstrap_data.num_durations, 
                                            38); // Transmit at 38KHz

@@ -4,7 +4,7 @@
 #include <sys/cdefs.h>
 
 // This struct must match `WatchIrSmartstrapData` on Arduino
-#define MAX_SUPPORTED_IR_DURATIONS 50
+#define MAX_SUPPORTED_IR_DURATIONS 100
 typedef struct {
   size_t num_durations;
   size_t durations[MAX_SUPPORTED_IR_DURATIONS];
@@ -15,8 +15,6 @@ typedef struct {
   uint32_t icon_resource_id;
   IrCode ir_code;
 } IrButton;
-
-_Static_assert(sizeof(IrButton) <= PERSIST_DATA_MAX_LENGTH, "sizeof(IrCode) > PERSIST_DATA_MAX_LENGTH");
 
 bool ir_button_get_program(ButtonId pebble_button, IrButton *result);
 bool ir_button_program(IrButton *ir_button);
